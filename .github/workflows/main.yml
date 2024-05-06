@@ -1,0 +1,47 @@
+name: EBAC CI
+
+
+
+on:
+
+ push:
+
+  branches: [ ci ]
+
+ workflow_dispatch:
+
+
+
+jobs:
+
+ test:
+
+  runs-on: ubuntu-latest
+
+  steps:
+
+   - name: Install Dependencies
+
+    run: npm install
+
+   - name: Run Tests
+
+    run: npm t
+
+    continue-on-error: true
+
+   - name: Start Application
+
+    run: npm start
+
+    continue-on-error: true
+
+   - name: Publish Report
+
+    uses: peaceiris/actions-gh-pages@v3
+
+    with:
+
+     github_token: ${{ secrets.GITHUB_TOKEN }}
+
+     publish_dir: ./mochawesome-report
